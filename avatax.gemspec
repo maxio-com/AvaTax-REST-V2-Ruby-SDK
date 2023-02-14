@@ -1,14 +1,14 @@
 require File.expand_path('../lib/avatax/version', __FILE__)
 
 Gem::Specification.new do |s|
+  s.add_development_dependency('pry')
   s.add_development_dependency('rake', '~> 12.0.0')
   s.add_development_dependency('rspec', '~> 3.5.0')
   s.add_development_dependency('webmock', '>= 2.0.0')
-  s.add_development_dependency('pry')
-  s.add_runtime_dependency('faraday', '>= 0.10')
+  s.add_runtime_dependency('faraday', '>= 0.10', '< 2.0')
   s.add_runtime_dependency('faraday_middleware', '>= 0.10')
   s.add_runtime_dependency('multi_json', '>= 1.0.3')
-  s.add_runtime_dependency('faraday_middleware-parse_oj', '~> 0.3.2')
+  s.add_runtime_dependency('oj', '>= 3.0')
   s.authors = ["Marcus Vorwaller"]
   s.description = %q{A Ruby wrapper for the AvaTax REST and Search APIs}
   s.post_install_message =<<eos

@@ -1,6 +1,6 @@
 require 'faraday_middleware'
 require 'faraday_middleware/response_middleware'
-require 'faraday_middleware/parse_oj'
+require 'oj'
 
 module AvaTax
   module Connection
@@ -12,11 +12,21 @@ module AvaTax
           Oj.load(body, mode: :compat, bigdecimal_load: :bigdecimal) unless body.strip.empty?
         end
       end
+
+      class ParseOj < ::FaradayMiddleware::ResponseMiddleware
+        dependency 'oj'
+
+        define_parser do |body|
+          Oj.load(body, mode: :compat) unless body.strip.empty?
+        end
+      end
     end
 
     Faraday::Response.register_middleware oj_with_bigdecimal: FaradayMiddleware::ParseOjWithBigDecimal
+    Faraday::Response.register_middleware oj: FaradayMiddleware::ParseOj
 
     private
+
     AUTHORIZATION_FILTER_REGEX = /(Authorization\:\ \"Basic\ )(\w+)\=/
     REMOVED_LABEL = '\1[REMOVED]'
 
@@ -35,11 +45,12 @@ module AvaTax
       }.merge(connection_options)
 
       Faraday.new(options) do |faraday|
-        faraday_response_parser = if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.2.2') and response_big_decimal_conversion
-                                    :oj_with_bigdecimal
-                                  else
-                                    :oj
-                                  end
+        faraday_response_parser =
+          if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.2.2') && response_big_decimal_conversion
+            :oj_with_bigdecimal
+          else
+            :oj
+          end
 
         faraday.response faraday_response_parser, content_type: /\bjson$/
         faraday.request :basic_auth, username, password
