@@ -24,21 +24,7 @@ module AvaTax
       # @param hsCode [String] The partial or full HS Code for which you would like to view all of the parents.
       # @return [FetchResult]
       def get_cross_border_code(country, hsCode)        path = "/api/v2/definitions/crossborder/#{country}/#{hsCode}/hierarchy"
-        get(path, {}, "22.6.1")      end
-
-      # Test whether a form supports online login verification
-      #
-      # This API is intended to be useful to identify whether the user should be allowed
-      # to automatically verify their login and password. This API will provide a result only if the form supports automatic online login verification.
-      # Swagger Name: AvaTaxClient	  
-      # @param form [String] The name of the form you would like to verify. This is the tax form code
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxFormCodes, scraperType, expectedResponseTime, requiredFilingCalendarDataFields
-      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
-      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
-      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
-      # @return [FetchResult]
-      def get_login_verifier_by_form(form, options={})        path = "/api/v2/definitions/filingcalendars/loginverifiers/#{form}"
-        get(path, options, "22.6.1")      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # List all market place locations.
       #
@@ -50,7 +36,19 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_all_marketplace_locations(options={})        path = "/api/v2/definitions/listallmarketplacelocations"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # Retrieve the list of all valid unit of basis
+      #
+      # 
+      # Swagger Name: AvaTaxClient	  
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributesUsed, parameterMetadata
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @return [FetchResult]
+      def list_all_unit_of_basis(options={})        path = "/api/v2/definitions/unitofbasis"
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of the AvaFile Forms available
       #
@@ -67,7 +65,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_ava_file_forms(options={})        path = "/api/v2/definitions/avafileforms"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List certificate attributes used by a company
       #
@@ -86,7 +84,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_certificate_attributes(options={})        path = "/api/v2/definitions/certificateattributes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List the certificate exempt reasons defined by a company
       #
@@ -104,7 +102,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_certificate_exempt_reasons(options={})        path = "/api/v2/definitions/certificateexemptreasons"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List certificate exposure zones used by a company
       #
@@ -116,13 +114,13 @@ module AvaTax
       # If you see the 'CertCaptureNotConfiguredError', please use CheckProvision and RequestProvision endpoints to
       # check and provision account.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, companyId, name, tag, description, created, modified, region, country
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, companyId, tag, description, created, modified, region, country
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_certificate_exposure_zones(options={})        path = "/api/v2/definitions/certificateexposurezones"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported usage of extra parameters for classification of a item.
       #
@@ -130,13 +128,13 @@ module AvaTax
       # The list of parameters is available for use with Item Classification.
       # Some parameters are only available for use if you have subscribed to certain features of AvaTax.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* values
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributeSubType, values
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_classification_parameters_usage(options={})        path = "/api/v2/definitions/classification/parametersusage"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of communications service types
       #
@@ -149,7 +147,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_communications_service_types(id, options={})        path = "/api/v2/definitions/communications/transactiontypes/#{id}/servicetypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of communications transactiontypes
       #
@@ -162,7 +160,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_communications_transaction_types(options={})        path = "/api/v2/definitions/communications/transactiontypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of communications transaction/service type pairs
       #
@@ -175,21 +173,26 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_communications_t_s_pairs(options={})        path = "/api/v2/definitions/communications/tspairs"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all ISO 3166 countries
       #
-      # Returns a list of all ISO 3166 country codes, and their US English friendly names.
+      # Returns a list of ISO 3166 country codes based on the scope filter.
       # This API is intended to be useful when presenting a dropdown box in your website to allow customers to select a country for
       # a shipping address.
+      #
+      # Scope options:
+      # - Custom: Return only countries for which there is a TaxTypeMapping with IsCustomContent = true (requires subscription)
+      # - All (default): Return all ISO 3166 countries
       # Swagger Name: AvaTaxClient	  
       # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* alpha3Code, isEuropeanUnion, localizedNames, addressesRequireRegion
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param scope [String] Optional query parameter to filter by Custom or All countries (default: All) (See ContentScope::* for a list of allowable values)
       # @return [FetchResult]
       def list_countries(options={})        path = "/api/v2/definitions/countries"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List certificate exposure zones used by a company
       #
@@ -208,7 +211,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_cover_letters(options={})        path = "/api/v2/definitions/coverletters"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Lists the next level of HS Codes given a destination country and HS Code prefix.
       #
@@ -233,7 +236,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_cross_border_codes(country, hsCode, options={})        path = "/api/v2/definitions/crossborder/#{country}/#{hsCode}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List top level HS Code Sections.
       #
@@ -250,7 +253,7 @@ module AvaTax
       # Swagger Name: AvaTaxClient	  
       # @return [FetchResult]
       def list_cross_border_sections()        path = "/api/v2/definitions/crossborder/sections"
-        get(path, {}, "22.6.1")      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # List all ISO 4217 currencies supported by AvaTax.
       #
@@ -265,7 +268,26 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_currencies(options={})        path = "/api/v2/definitions/currencies"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # List the Avalara system default currency rounding rules.
+      #
+      # Lists the Avalara system default currency rounding rules - the rounding Avalara applies to
+      # a currency when an account has no rule of its own.
+      #
+      # Only currencies in this list may have an account-specific
+      # `AccountCurrencyRoundingRuleModel` created for them.
+      #
+      # Search for specific objects using the criteria in the `$filter` parameter; full documentation is available on [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/) .
+      # Paginate your results using the `$top`, `$skip`, and `$orderBy` parameters.
+      # Swagger Name: AvaTaxClient	  
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @return [FetchResult]
+      def list_currency_rounding_rule_defaults(options={})        path = "/api/v2/definitions/currencyroundingrules"
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported entity use codes
       #
@@ -281,7 +303,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_entity_use_codes(options={})        path = "/api/v2/definitions/entityusecodes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported filing frequencies.
       #
@@ -294,7 +316,47 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_filing_frequencies(options={})        path = "/api/v2/definitions/filingfrequencies"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # List of all HS code classification statuses that can be assigned to an Item.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # Swagger Name: AvaTaxClient	  
+      # @return [ItemHSCodeClassificationStatusOutputModel[]]
+      def list_item_h_s_code_classification_status()        path = "/api/v2/definitions/items/hscode-classification-status"
+        get(path, {}, AvaTax::VERSION)      end
+
+      # List of all event types that can be subscribed to for Item reverse sync webhook registrations.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # Swagger Name: AvaTaxClient	  
+      # @return [ItemReverseSyncEventDefinitionOutputModel[]]
+      def list_item_reverse_sync_events()        path = "/api/v2/definitions/items/events"
+        get(path, {}, AvaTax::VERSION)      end
+
+      # List of all recommendation status which can be assigned to an item
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # Swagger Name: AvaTaxClient	  
+      # @return [ItemTaxCodeRecommendationStatusModel[]]
+      def list_items_recommendations_status()        path = "/api/v2/definitions/items/recommendationstatus"
+        get(path, {}, AvaTax::VERSION)      end
+
+      # List of all possible status which can be assigned to an item
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # Swagger Name: AvaTaxClient	  
+      # @return [ItemStatusModel[]]
+      def list_items_status()        path = "/api/v2/definitions/items/status"
+        get(path, {}, AvaTax::VERSION)      end
 
       # List jurisdictions based on the filter provided
       #
@@ -305,13 +367,14 @@ module AvaTax
       #
       # The rate, salesRate, and useRate fields are not available on the JurisdictionModels returned by this API.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* rate, salesRate, signatureCode, useRate
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* rate, salesRate, signatureCode, useRate, isAcm, isSst, createDate, isLocalAdmin, taxAuthorityTypeId
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param companyId [Integer] Optional query parameter; when set, the result set is restricted to jurisdictions in regions   where the company has nexus. When omitted, all jurisdiction rows are eligible before filter is applied.
       # @return [FetchResult]
       def list_jurisdictions(options={})        path = "/api/v2/definitions/jurisdictions"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List jurisdictions near a specific address
       #
@@ -320,6 +383,10 @@ module AvaTax
       # This API allows you to identify which jurisdictions are nearby a specific address according to the best available geocoding information.
       # It is intended to allow you to create a "Jurisdiction Override", which allows an address to be configured as belonging to a nearby
       # jurisdiction in AvaTax.
+      #
+      # You can widen the search by supplying the optional `radius` parameter (in miles). Supported values are
+      # 5 (default), 10, 20, 30, and 40. If the desired tax region is not found at 5 miles, retry with a larger radius.
+      # This only affects tax-region retrieval for this request; it does not change tax calculation once a region is selected.
       #
       # The results of this API call can be passed to the `CreateJurisdictionOverride` API call.
       # Swagger Name: AvaTaxClient	  
@@ -330,17 +397,20 @@ module AvaTax
       # @param region [String] The region, state, or province code portion of this address.
       # @param postalCode [String] The postal code or zip code portion of this address.
       # @param country [String] The two-character ISO-3166 code of the country portion of this address.
+      # @param radius [Integer] Optional. The search radius in miles used to find nearby tax regions. Allowed values are 5, 10,  20, 30, and 40; when omitted the default of 5 miles is used. A larger radius widens the search for  this request only and does not change the default behavior for other requests. Any other value  is rejected with a validation error.
       # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* country, Jurisdictions
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_jurisdictions_by_address(options={})        path = "/api/v2/definitions/jurisdictionsnearaddress"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
-      # List jurisdictions based on the TaxType, TaxSubType and RateType provided
+      # List jurisdictions based on the provided taxTypeId, taxSubTypeId, country, and rateTypeId
       #
-      # Returns a list of all Avalara-supported taxing jurisdictions filtered by TaxType, TaxSubType and RateType.
+      # Returns a list of all Avalara-supported taxing jurisdictions filtered by taxTypeId, taxSubTypeId, country, and rateTypeId.
+      #
+      # You can optionally pass region as a query parameter to retrieve jurisdictions that are under that region.
       #
       # This API allows you to examine all Avalara-supported jurisdictions. You can filter your search by supplying
       # SQL-like query for fetching only the ones you concerned about. For example: effectiveDate > '2016-01-01'
@@ -350,14 +420,72 @@ module AvaTax
       # @param country [String] The country for which you want to retrieve the jurisdiction information
       # @param taxTypeId [String] The taxtype for which you want to retrieve the jurisdiction information
       # @param taxSubTypeId [String] The taxsubtype for which you want to retrieve the jurisdiction information
-      # @param rateTypeId [String] The ratetype for which you want to retrieve the jurisdiction information
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, country, state, jurisdictionCode, longName, taxTypeId, taxSubTypeId, taxTypeGroupId, rateTypeId
+      # @param rateTypeId [Integer] The ratetype for which you want to retrieve the jurisdiction information
+      # @param region [String] The region for which you want to retrieve the jurisdiction information
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* id, country, state, jurisdictionCode, longName, taxTypeId, taxSubTypeId, taxTypeGroupId, rateTypeId, stateFips
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param includeCustomContent [Boolean] Optional query parameter to include custom content jurisdictions (default: false)
+      # @return [FetchResult]
+      def list_jurisdictions_by_rate_type_tax_type_mapping(country, taxTypeId, taxSubTypeId, options={})        path = "/api/v2/definitions/jurisdictions/countries/#{country}/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}"
+        get(path, options, AvaTax::VERSION)      end
+
+      # List jurisdictions hierarchy based on the filter provided
+      #
+      # Returns a list of all Avalara-supported taxing jurisdictions hirearchy.
+      #
+      # This API Lists the hierarchical relationship of jurisdictions for US states, identifying the cities and special taxing jurisdictions (STJs) for a given county within a state.
+      #
+      # The rate, salesRate, and useRate fields are not available on the JurisdictionHirearchyModels returned by this API.
+      # Swagger Name: AvaTaxClient	  
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* parentId, nexus, rate, salesRate, signatureCode, useRate, isAcm, isSst, createDate, isLocalAdmin, taxAuthorityTypeId
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
-      def list_jurisdictions_by_rate_type_tax_type_mapping(country, taxTypeId, taxSubTypeId, options={})        path = "/api/v2/definitions/jurisdictions/countries/#{country}/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}"
-        get(path, options, "22.6.1")      end
+      def list_jurisdictions_hierarchy(options={})        path = "/api/v2/definitions/jurisdictions/hierarchy"
+        get(path, options, AvaTax::VERSION)      end
+
+      # List tax types, subtypes, and rate types applicable for a given jurisdiction
+      #
+      # Returns a list of tax type and subtype groups, and optionally the available rate types for each group, applicable for a given jurisdiction.
+      #
+      # This API lets you filter tax types and rate types based on whether they may apply in a given jurisdiction and provides a description of each.
+      #
+      # If a company ID is provided, then only the tax types for which the company has nexus are shown.
+      #
+      # If custom content is included, then all available custom tax types are included in the result if the calling user has the appropriate subscription
+      # and the tax types are available in the jurisdiction's country.
+      # Swagger Name: AvaTaxClient	  
+      # @param country [String] ISO country code (e.g. `US`)
+      # @param region [String] ISO region or state/province code (e.g. `CA` for California)
+      # @param jurisdictionTypeId [String] Jurisdiction type identifier (e.g. `STA` for state)
+      # @param jurisdictionCode [String] Code identifying a specific jurisdiction
+      # @param companyId [Integer] Optional query parameter. When set, tax type/subtype pairs are filtered to those which correspond to the company's   configured nexus. When omitted, no nexus-based filtering is applied.
+      # @param effectiveDate [DateTime] Optional query parameter. When companyId is not provided, this is the date used to filter  effective tax types and rate types. Defaults to the current date.
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* rateTypes
+      # @param includeCustomContent [Boolean] When true, merges in potentially applicable custom tax types and subtypes into result (i.e. for which no system content is defined). Defaults to false.
+      # @param includeRateTypes [Boolean] Query parameter `$includeRateTypes`. When true (default), returns the rate types available for each tax type + subtype pair in the result.
+      # @return [FetchResult]
+      def list_jurisdiction_tax_types_and_sub_types(country, region, jurisdictionTypeId, jurisdictionCode, options={})        path = "/api/v2/definitions/jurisdictions/#{country}/#{region}/#{jurisdictionTypeId}/#{jurisdictionCode}/taxTypesAndSubTypes"
+        get(path, options, AvaTax::VERSION)      end
+
+      # List jurisdiction types based on the provided taxTypeId, taxSubTypeId, country, and rateTypeId
+      #
+      # Returns a list of all applicable jurisdiction types based on country, taxTypeId, taxSubTypeId, and rateTypeId
+      # Swagger Name: AvaTaxClient	  
+      # @param country [String] The country for which you want to retrieve the jurisdiction information
+      # @param taxTypeId [String] The taxtype for which you want to retrieve the jurisdiction information
+      # @param taxSubTypeId [String] The taxsubtype for which you want to retrieve the jurisdiction information
+      # @param rateTypeId [String] The ratetype for which you want to retrieve the jurisdiction information
+      # @param includeCustomContent [Boolean] Optional query parameter to include custom content jurisdiction types (default: false)
+      # @return [string[]]
+      def list_jurisdiction_types_by_rate_type_tax_type_mapping(country, taxTypeId, taxSubTypeId, options={})        path = "/api/v2/definitions/jurisdictionTypes/countries/#{country}/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}"
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list of questions that are required for a tax location
       #
@@ -383,21 +511,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_location_questions_by_address(options={})        path = "/api/v2/definitions/locationquestions"
-        get(path, options, "22.6.1")      end
-
-      # List all forms where logins can be verified automatically
-      #
-      # List all forms where logins can be verified automatically.
-      # This API is intended to be useful to identify whether the user should be allowed
-      # to automatically verify their login and password.
-      # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxFormCodes, scraperType, expectedResponseTime, requiredFilingCalendarDataFields
-      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
-      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
-      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
-      # @return [FetchResult]
-      def list_login_verifiers(options={})        path = "/api/v2/definitions/filingcalendars/loginverifiers"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list of locations for a marketplace.
       #
@@ -409,21 +523,23 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_marketplace_locations(options={})        path = "/api/v2/definitions/marketplacelocations"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported nexus for all countries and regions.
       #
       # Returns the full list of all Avalara-supported nexus for all countries and regions.
       #
       # This API is intended to be useful if your user interface needs to display a selectable list of nexus.
+      #
+      # The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters, taxableNexus
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus(options={})        path = "/api/v2/definitions/nexus"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all nexus that apply to a specific address.
       #
@@ -440,44 +556,48 @@ module AvaTax
       # @param region [String] Name or ISO 3166 code identifying the region portion of the address.      This field supports many different region identifiers:   * Two and three character ISO 3166 region codes   * Fully spelled out names of the region in ISO supported languages   * Common alternative spellings for many regions      For a full list of all supported codes and names, please see the Definitions API `ListRegions`.
       # @param postalCode [String] The postal code or zip code portion of this address.
       # @param country [String] Name or ISO 3166 code identifying the country portion of this address.      This field supports many different country identifiers:   * Two character ISO 3166 codes   * Three character ISO 3166 codes   * Fully spelled out names of the country in ISO supported languages   * Common alternative spellings for many countries      For a full list of all supported codes and names, please see the Definitions API `ListCountries`.
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters, taxableNexus
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus_by_address(options={})        path = "/api/v2/definitions/nexus/byaddress"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported nexus for a country.
       #
       # Returns all Avalara-supported nexus for the specified country.
       #
       # This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by country.
+      #
+      # The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
       # Swagger Name: AvaTaxClient	  
       # @param country [String] The country in which you want to fetch the system nexus
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters, taxableNexus
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus_by_country(country, options={})        path = "/api/v2/definitions/nexus/#{country}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported nexus for a country and region.
       #
       # Returns all Avalara-supported nexus for the specified country and region.
       #
       # This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by country and region.
+      #
+      # The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
       # Swagger Name: AvaTaxClient	  
       # @param country [String] The two-character ISO-3166 code for the country.
       # @param region [String] The two or three character region code for the region.
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters, taxableNexus
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus_by_country_and_region(country, region, options={})        path = "/api/v2/definitions/nexus/#{country}/#{region}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List nexus related to a tax form
       #
@@ -495,27 +615,29 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, Compliance Root User, ComplianceAdmin, ComplianceUser, CSPAdmin, CSPTester, FirmAdmin, FirmUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, Compliance Root User, ComplianceAdmin, ComplianceUser, CSPAdmin, CSPTester, FirmAdmin, FirmUser, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # Swagger Name: AvaTaxClient	  
       # @param formCode [String] The form code that we are looking up the nexus for
       # @return [Object]
       def list_nexus_by_form_code(formCode)        path = "/api/v2/definitions/nexus/byform/#{formCode}"
-        get(path, {}, "22.6.1")      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported nexus for a tax type group.
       #
       # Returns all Avalara-supported nexus for the specified specified tax type group.
       #
       # This API is intended to be useful if your user interface needs to display a selectable list of nexus filtered by tax type group.
+      #
+      # The `localNexusTypeId` field can be null. Treat null as `Selected`, the same as the Tax Calculation Service does.
       # Swagger Name: AvaTaxClient	  
       # @param taxTypeGroup [String] The tax type group to fetch the supporting system nexus for.
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters, taxableNexus
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* streamlinedSalesTax, isSSTActive, taxTypeGroup, taxAuthorityId, taxName, parameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus_by_tax_type_group(taxTypeGroup, options={})        path = "/api/v2/definitions/nexus/bytaxtypegroup/#{taxTypeGroup}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of nexus tax type groups
       #
@@ -528,7 +650,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_nexus_tax_type_groups(options={})        path = "/api/v2/definitions/nexustaxtypegroups"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice customer funding options.
       #
@@ -541,7 +663,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_customer_funding_options(options={})        path = "/api/v2/definitions/noticecustomerfundingoptions"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice customer types.
       #
@@ -554,7 +676,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_customer_types(options={})        path = "/api/v2/definitions/noticecustomertypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice filing types.
       #
@@ -567,7 +689,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_filingtypes(options={})        path = "/api/v2/definitions/noticefilingtypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice priorities.
       #
@@ -580,7 +702,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_priorities(options={})        path = "/api/v2/definitions/noticepriorities"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice reasons.
       #
@@ -593,7 +715,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_reasons(options={})        path = "/api/v2/definitions/noticereasons"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice responsibility ids
       #
@@ -606,7 +728,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_responsibilities(options={})        path = "/api/v2/definitions/noticeresponsibilities"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice root causes
       #
@@ -619,20 +741,20 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_root_causes(options={})        path = "/api/v2/definitions/noticerootcauses"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice statuses.
       #
       # Returns the full list of Avalara-supported tax notice statuses.
       # This API is intended to be useful to identify all the different tax notice statuses.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* isOpen, sortOrder
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* isOpen, sortOrder, activeFlag
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_statuses(options={})        path = "/api/v2/definitions/noticestatuses"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax notice types.
       #
@@ -645,7 +767,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_notice_types(options={})        path = "/api/v2/definitions/noticetypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported extra parameters for creating transactions.
       #
@@ -653,13 +775,26 @@ module AvaTax
       # This list of parameters is available for use when configuring your transaction.
       # Some parameters are only available for use if you have subscribed to certain features of AvaTax.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* serviceTypes, regularExpression, values
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* serviceTypes, regularExpression, attributeSubType, values
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_parameters(options={})        path = "/api/v2/definitions/parameters"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # Retrieve the list of Avalara-supported parameters based on account subscriptions.
+      #
+      # Returns the list of Avalara-supported parameters based on account subscriptions.
+      # Swagger Name: AvaTaxClient	  
+      # @param accountId [Integer] The ID of the account to retrieve the parameters.
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* serviceTypes, regularExpression, attributeSubType, values
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @return [FetchResult]
+      def list_parameters_by_account(accountId, options={})        path = "/api/v2/definitions/accounts/#{accountId}/parameters"
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the parameters by companyCode and itemCode.
       #
@@ -680,17 +815,17 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ReturnsOnlyAccountAdmin, ReturnsOnlyAccountUser, ReturnsOnlyCompanyAdmin, ReturnsOnlyCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] Company code.
       # @param itemCode [String] Item code.
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* serviceTypes, regularExpression, values
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* serviceTypes, regularExpression, attributeSubType, values
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_parameters_by_item(companyCode, itemCode, options={})        path = "/api/v2/definitions/parameters/byitem/#{companyCode}/#{itemCode}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported usage of extra parameters for creating transactions.
       #
@@ -698,13 +833,14 @@ module AvaTax
       # This list of parameters is available for use when configuring your transaction.
       # Some parameters are only available for use if you have subscribed to certain features of AvaTax.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* values
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributeSubType, values, valueDescriptions, jurisdictionTypeId, jurisdictionCode, jurisdictionName, unitOfBasis, taxSubTypeId
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param include [String] A comma separated list of additional data to retrieve, for example "jurisdictionDetail"  (case-insensitive). When present, the response includes jurisdictionTypeId, jurisdictionCode,  jurisdictionName, unitOfBasis and taxSubTypeId for each result. These fields are not available to $filter/$orderBy.
       # @return [FetchResult]
       def list_parameters_usage(options={})        path = "/api/v2/definitions/parametersusage"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported permissions
       #
@@ -715,7 +851,7 @@ module AvaTax
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @return [FetchResult]
       def list_permissions(options={})        path = "/api/v2/definitions/permissions"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported postal codes.
       #
@@ -725,9 +861,10 @@ module AvaTax
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param includeExpiredPostalCodes [Boolean] If set to true, returns expired postal codes. Defaults to false
       # @return [FetchResult]
       def list_postal_codes(options={})        path = "/api/v2/definitions/postalcodes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all customs duty programs recognized by AvaTax
       #
@@ -747,7 +884,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_preferred_programs(options={})        path = "/api/v2/definitions/preferredprograms"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all available product classification systems.
       #
@@ -763,7 +900,7 @@ module AvaTax
       # @param countryCode [String] If not null, return all records with this code.
       # @return [FetchResult]
       def list_product_classification_systems(options={})        path = "/api/v2/definitions/productclassificationsystems"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all product classification systems available to a company based on its nexus.
       #
@@ -788,7 +925,7 @@ module AvaTax
       # @param countryCode [String] If not null, return all records with this code.
       # @return [FetchResult]
       def list_product_classification_systems_by_company(companyCode, options={})        path = "/api/v2/definitions/productclassificationsystems/bycompany/#{companyCode}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of rate types for each country
       #
@@ -796,13 +933,13 @@ module AvaTax
       # This API is intended to be useful to identify all the different rate types.
       # Swagger Name: AvaTaxClient	  
       # @param country [String] The country to examine for rate types
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* country
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_rate_types_by_country(country, options={})        path = "/api/v2/definitions/countries/#{country}/ratetypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list of rate types by country, TaxType and by TaxSubType
       #
@@ -816,9 +953,10 @@ module AvaTax
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param includeCustomContent [Boolean] Optional query parameter to include custom content rate types (default: false)
       # @return [FetchResult]
       def list_rate_types_by_country_tax_type_tax_sub_type(country, taxTypeId, taxSubTypeId, options={})        path = "/api/v2/definitions/countries/#{country}/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}/ratetypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all ISO 3166 regions
       #
@@ -832,7 +970,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_regions(options={})        path = "/api/v2/definitions/regions"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all ISO 3166 regions for a country
       #
@@ -847,20 +985,27 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_regions_by_country(country, options={})        path = "/api/v2/definitions/countries/#{country}/regions"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
-      # Retrieve the full list of Avalara-supported resource file types
+      # Retrieve the list of applicable regions by country tax type, tax sub type, and rate type for a given JurisdictionTypeId
       #
-      # Returns the full list of Avalara-supported resource file types
-      # This API is intended to be useful to identify all the different resource file types.
+      # Returns a list of all ISO 3166 region codes for a specific country code and their US English friendly names.
+      # This API is intended to be used as a way to provide a dropdown box in your website to allow customers to select a region
+      # within the country for shipping addresses.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+      # @param companyId [Integer] The ID of the company for which you want to retrieve the applicable regions
+      # @param country [String] The country for which you want to retrieve the regions
+      # @param taxTypeId [String] The taxTypeId for which you want to retrieve the regions. Example values include Autimotive, tires, Lodging, S, U, I, O, All, etc. Run the "/api/v2/definitions/taxtypes/countries/{country}?companyId=" endpoint for a list of taxTypeId values.
+      # @param taxSubTypeId [String] The taxSubType for which you want to retrieve the regions. Example values include Accommodations, BikeTax, IGST, S, U, All, etc. Run the "api/v2/definitions/taxsubtypes" endpoint for a list of taxSubTypes values.
+      # @param rateTypeId [Integer] The rateTypeId for which you want to retrieve the regions.   Note: The rateTypeId is an integer. Run the "/api/v2/definitions/countries/{country}/taxtypes/{taxTypeId}/taxsubtypes/{taxSubTypeId}/ratetypes" endpoint for a list of rateTypeId values."
+      # @param jurisdictionTypeId [String] The JurisdictionTypeId for which you want to retrieve the regions.   This is a three-character string. Accepted values are ```CNT``` (country), ```STA``` (state), ```CTY``` (county), ```CIT``` (city), or ```STJ``` (special jurisdiction).
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param scope [String] Optional query parameter to filter system, custom content or all regions (default: System) (See ContentScope::* for a list of allowable values)
       # @return [FetchResult]
-      def list_resource_file_types(options={})        path = "/api/v2/definitions/resourcefiletypes"
-        get(path, options, "22.6.1")      end
+      def list_regions_by_country_and_tax_type_and_tax_sub_type_and_rate_type(companyId, country, taxTypeId, taxSubTypeId, rateTypeId, jurisdictionTypeId, options={})        path = "/api/v2/definitions/companies/#{companyId}/countries/#{country}/regions/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}/rateTypeId/#{rateTypeId}/jurisdictionTypeId/#{jurisdictionTypeId}"
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported usage of parameters used for returns.
       #
@@ -868,13 +1013,13 @@ module AvaTax
       # This list of parameters is available for use with Returns.
       # Some parameters are only available for use if you have subscribed to certain features of AvaTax.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* values
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* attributeSubType, values
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_returns_parameters_usage(options={})        path = "/api/v2/definitions/returns/parametersusage"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported permissions
       #
@@ -888,7 +1033,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_security_roles(options={})        path = "/api/v2/definitions/securityroles"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported subscription types
       #
@@ -897,13 +1042,13 @@ module AvaTax
       # You may always contact Avalara's sales department for information on available products or services.
       # You cannot change your subscriptions directly through the API.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* system, taxTypeGroupIdSK
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_subscription_types(options={})        path = "/api/v2/definitions/subscriptiontypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list all tags supported by avalara
       #
@@ -915,7 +1060,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tags(options={})        path = "/api/v2/definitions/tags"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax authorities.
       #
@@ -928,7 +1073,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_authorities(options={})        path = "/api/v2/definitions/taxauthorities"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported forms for each tax authority.
       #
@@ -943,7 +1088,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_authority_forms(options={})        path = "/api/v2/definitions/taxauthorityforms"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax authority types.
       #
@@ -956,27 +1101,27 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_authority_types(options={})        path = "/api/v2/definitions/taxauthoritytypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax codes.
       #
       # Retrieves the list of Avalara-supported system tax codes.
       # A 'TaxCode' represents a uniquely identified type of product, good, or service.
       # Avalara supports correct tax rates and taxability rules for all TaxCodes in all supported jurisdictions.
-      # If you identify your products by tax code in your 'Create Transacion' API calls, Avalara will correctly calculate tax rates and
+      # If you identify your products by tax code in your 'Create Transaction' API calls, Avalara will correctly calculate tax rates and
       # taxability rules for this product in all supported jurisdictions.
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ECMAccountUser, ECMCompanyUser, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # Swagger Name: AvaTaxClient	  
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* hasParameters
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_codes(options={})        path = "/api/v2/definitions/taxcodes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of Avalara-supported tax code types.
       #
@@ -988,7 +1133,7 @@ module AvaTax
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @return [Object]
       def list_tax_code_types(options={})        path = "/api/v2/definitions/taxcodetypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of the Tax Forms available
       #
@@ -1001,7 +1146,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_forms(options={})        path = "/api/v2/definitions/taxforms"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of tax sub types
       #
@@ -1014,7 +1159,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_sub_types(options={})        path = "/api/v2/definitions/taxsubtypes"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of tax sub types by Country and TaxType
       #
@@ -1023,13 +1168,15 @@ module AvaTax
       # Swagger Name: AvaTaxClient	  
       # @param country [String] The country to examine for taxsubtype
       # @param taxTypeId [String] The taxType for the country to examine for taxsubtype
+      # @param companyId [Integer] Id of the company the user wish to fetch the applicable tax sub types
       # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param scope [String] Optional query parameter to filter by System, Custom or All tax sub types (default: System) (See ContentScope::* for a list of allowable values)
       # @return [FetchResult]
       def list_tax_sub_types_by_country_and_tax_type(country, taxTypeId, options={})        path = "/api/v2/definitions/taxsubtypes/countries/#{country}/taxtypes/#{taxTypeId}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of tax sub types by jurisdiction code and region
       #
@@ -1044,7 +1191,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_sub_types_by_jurisdiction_and_region(jurisdictionCode, region, options={})        path = "/api/v2/definitions/taxsubtypes/#{jurisdictionCode}/#{region}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the full list of tax type groups
       #
@@ -1057,7 +1204,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_tax_type_groups(options={})        path = "/api/v2/definitions/taxtypegroups"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list of applicable TaxTypes
       #
@@ -1068,9 +1215,10 @@ module AvaTax
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @param scope [String] Optional query parameter to filter by System, Custom or All tax types (default: System) (See ContentScope::* for a list of allowable values)
       # @return [FetchResult]
       def list_tax_types_by_nexus_and_country(country, options={})        path = "/api/v2/definitions/taxtypes/countries/#{country}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve the list of applicable UnitOfBasis
       #
@@ -1080,12 +1228,15 @@ module AvaTax
       # @param taxTypeId [String] The taxtype for which you want to retrieve the unitofbasis information
       # @param taxSubTypeId [String] The taxsubtype for which you want to retrieve the unitofbasis information
       # @param rateTypeId [String] The ratetype for which you want to retrieve the unitofbasis information
+      # @param state [String] Optional. The State/region (e.g. ```CO```) to narrow the unitofbasis results to a specific jurisdiction. When omitted, results are not narrowed by state.
+      # @param jurisTypeId [String] Optional. The jurisdiction type to filter by. Accepted values are ```STA``` (state), ```CTY``` (county), ```CIT``` (city), or ```STJ``` (special jurisdiction). When omitted, results are not narrowed by jurisdiction type.
+      # @param jurisCode [String] Optional. The local jurisdiction code to filter by (used together with state/jurisTypeId). When omitted, results are not narrowed by jurisdiction code.
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_unit_of_basis_by_country_and_tax_type_and_tax_sub_type_and_rate_type(country, taxTypeId, taxSubTypeId, options={})        path = "/api/v2/definitions/unitofbasis/countries/#{country}/taxtypes/#{taxTypeId}/taxsubtypes/#{taxSubTypeId}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # List all defined units of measurement
       #
@@ -1099,7 +1250,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_unit_of_measurement(options={})        path = "/api/v2/definitions/unitofmeasurements"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
     end
   end
 end
