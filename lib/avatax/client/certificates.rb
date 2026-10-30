@@ -29,15 +29,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, ProStoresOperator, Registrar, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AvaTaxOnlyAccountAdmin, AvaTaxOnlyCompanyAdmin, BatchServiceAdmin, CompanyAdmin, CSPTester, ProStoresOperator, Registrar, ReturnsOnlyAccountAdmin, ReturnsOnlyCompanyAdmin, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The ID number of the company recording this certificate
       # @param preValidatedExemptionReason [Boolean] If set to true, the certificate will bypass the human verification process.
       # @param model [CertificateModel[]] Certificates to be created
       # @return [CertificateModel[]]
       def create_certificates(companyId, model, options={})        path = "/api/v2/companies/#{companyId}/certificates"
-        post(path, model, options, "22.6.1")      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Revoke and delete a certificate
       #
@@ -57,14 +57,35 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @return [ErrorDetail[]]
       def delete_certificate(companyId, id)        path = "/api/v2/companies/#{companyId}/certificates/#{id}"
-        delete(path, {}, "22.6.1")      end
+        delete(path, {}, AvaTax::VERSION)      end
+
+      # Delete Certificate Custom Fields
+      #
+      # Deletes custom fields for a specified certificate.
+      #
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The unique ID number of the company that recorded this certificate
+      # @param id [Integer] The unique ID number of this certificate
+      # @param model [DeleteCustomFields[]] Delete custom fields request model
+      # @return []
+      def delete_certificate_custom_fields(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/custom-fields"
+        delete(path, model, {}, AvaTax::VERSION)      end
 
       # Download an image for this certificate
       #
@@ -85,8 +106,8 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
@@ -94,7 +115,7 @@ module AvaTax
       # @param type [String] The data format in which to retrieve the certificate image (See CertificatePreviewType::* for a list of allowable values)
       # @return [Object]
       def download_certificate_image(companyId, id, options={})        path = "/api/v2/companies/#{companyId}/certificates/#{id}/attachment"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve a single certificate
       #
@@ -110,6 +131,14 @@ module AvaTax
       # * customers - Retrieves the list of customers linked to the certificate.
       # * po_numbers - Retrieves all PO numbers tied to the certificate.
       # * attributes - Retrieves all attributes applied to the certificate.
+      # * histories - Retrieves the certificate update history
+      # * jobs - Retrieves the jobs for this certificate
+      # * jobs.phases - Retrieves the jobs along with their phases
+      # * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase
+      # * logs - Retrieves the certificate log
+      # * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid
+      # * custom_fields - Retrieves custom fields set for this certificate
+      # * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
       #
       # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
       # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
@@ -118,15 +147,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
-      # @param include [String] OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.
+      # @param include [String] OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * jobs.phases - Retrieves the jobs along with their phases   * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
       # @return [Object]
       def get_certificate(companyId, id, options={})        path = "/api/v2/companies/#{companyId}/certificates/#{id}"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Check a company's exemption certificate status.
       #
@@ -140,13 +169,13 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The company ID to check
       # @return [Object]
       def get_certificate_setup(companyId)        path = "/api/v2/companies/#{companyId}/certificates/setup"
-        get(path, {}, "22.6.1")      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # Link attributes to a certificate
       #
@@ -167,15 +196,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param model [CertificateAttributeModel[]] The list of attributes to link to this certificate.
       # @return [FetchResult]
       def link_attributes_to_certificate(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/attributes/link"
-        post(path, model, {}, "22.6.1")      end
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # Link customers to a certificate
       #
@@ -197,15 +226,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param model [Object] The list of customers needed be added to the Certificate for exemption
       # @return [FetchResult]
       def link_customers_to_certificate(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/customers/link"
-        post(path, model, {}, "22.6.1")      end
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # List all attributes applied to this certificate
       #
@@ -226,14 +255,45 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @return [FetchResult]
       def list_attributes_for_certificate(companyId, id)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/attributes"
-        get(path, {}, "22.6.1")      end
+        get(path, {}, AvaTax::VERSION)      end
+
+      # List the certificate tax-type hierarchy available to this company
+      #
+      # Returns the TPS multi-tax type hierarchy that is applicable when configuring exemption
+      # certificates for the given country. The returned tax types can be used to populate
+      # `taxTypeMappings` entries on a certificate jurisdiction via POST / PUT certificate.
+      #
+      # This endpoint is scoped to the certificate (CertCapture) domain and does not return the
+      # generic AvaTax tax-type catalog. For the generic catalog see the `Definitions` APIs.
+      #
+      # `country` is a mandatory query parameter.
+      #
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The ID number of the company
+      # @param country [String] Required. ISO-2 country code used to filter the tax-type hierarchy (e.g., "US").
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* taxTypeId, country, taxSubTypeDetails
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @return [FetchResult]
+      def list_certificate_tax_types(companyId, options={})        path = "/api/v2/companies/#{companyId}/certificates/taxtypes"
+        get(path, options, AvaTax::VERSION)      end
 
       # List customers linked to this certificate
       #
@@ -254,15 +314,104 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param include [String] OPTIONAL: A comma separated list of special fetch options.   No options are currently available when fetching customers.
       # @return [FetchResult]
       def list_customers_for_certificate(companyId, id, options={})        path = "/api/v2/companies/#{companyId}/certificates/#{id}/customers"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # Retrieve Certificate Custom Fields
+      #
+      # This API is used to retrieve custom fields for a certificate.
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The unique ID number of the company that recorded this certificate
+      # @param id [Integer] The unique ID number of this certificate
+      # @return [Object]
+      def list_custom_fields_for_certificate(companyId, id)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/custom-fields"
+        get(path, {}, AvaTax::VERSION)      end
+
+      # List the exemption matrix entries for an exposure zone
+      #
+      # Returns the entries in this company's exemption matrix for one exposure zone.
+      #
+      # Each entry carries the `timeLength` rule used to work out when a certificate
+      # recorded for that exposure zone and exempt reason expires, and the
+      # `qualifyingStatement` shown to the customer. See the `timeLength` field
+      # description for the meaning of each rule value.
+      #
+      # `exposureZoneId` is mandatory. Supplying `exemptReasonId` narrows the result to
+      # that one exempt reason; omitting it returns every exempt reason configured for
+      # the zone. Call `ListCertificateExposureZones` and `ListCertificateExemptReasons`
+      # to look up the available ID numbers.
+      #
+      # An exposure zone with nothing configured returns an empty list rather than a
+      # `404`, so "nothing configured" can be told apart from "no expiration rule".
+      # Exempt reasons that are disabled, or that denote exposure rather than exemption,
+      # are never listed.
+      #
+      # Results are paginated with `$top` and `$skip`. As with the other exemption
+      # certificate query APIs, `$skip` must be a multiple of `$top`.
+      #
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The ID number of the company
+      # @param exposureZoneId [Integer] Required. The ID number of the exposure zone.
+      # @param exemptReasonId [Integer] Optional. The ID number of an exempt reason. Omit to return every exempt reason configured for the exposure zone.
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @return [FetchResult]
+      def list_exemption_matrix(companyId, options={})        path = "/api/v2/companies/#{companyId}/exemptionmatrix"
+        get(path, options, AvaTax::VERSION)      end
+
+      # List local exempt jurisdictions for a given exposure zone and tax code
+      #
+      # Returns the list of jurisdictions that are valid for a given combination of exposure zone
+      # and exemption tax code. The returned jurisdictions can be used to add valid jurisdictions
+      # to a certificate.
+      #
+      # Both `exposureZone` and `taxCode` are mandatory query parameters.
+      #
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The ID number of the company
+      # @param exposureZone [String] Required. The exposure zone name used to filter valid jurisdictions (e.g., "California").
+      # @param taxCode [String] Required. The exemption tax code used to filter valid jurisdictions (e.g., "RESALE").
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* region, country, customerUsageType
+      # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
+      # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
+      # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
+      # @return [FetchResult]
+      def list_local_exempt_jurisdictions(companyId, options={})        path = "/api/v2/companies/#{companyId}/jurisdictions"
+        get(path, options, AvaTax::VERSION)      end
 
       # List all certificates for a company
       #
@@ -278,6 +427,14 @@ module AvaTax
       # * customers - Retrieves the list of customers linked to the certificate.
       # * po_numbers - Retrieves all PO numbers tied to the certificate.
       # * attributes - Retrieves all attributes applied to the certificate.
+      # * histories - Retrieves the certificate update history
+      # * jobs - Retrieves the jobs for this certificate
+      # * jobs.phases - Retrieves the jobs along with their phases
+      # * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase
+      # * logs - Retrieves the certificate log
+      # * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid
+      # * custom_fields - Retrieves custom fields set for this certificate
+      # * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
       #
       # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
       # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
@@ -286,18 +443,18 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The ID number of the company to search
-      # @param include [String] OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.
-      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, status, ecmsId, ecmsStatus, pdf, pages
+      # @param include [String] OPTIONAL: A comma separated list of special fetch options. You can specify one or more of the following:      * customers - Retrieves the list of customers linked to the certificate.   * po_numbers - Retrieves all PO numbers tied to the certificate.   * attributes - Retrieves all attributes applied to the certificate.   * histories - Retrieves the certificate update history   * jobs - Retrieves the jobs for this certificate   * jobs.phases - Retrieves the jobs along with their phases   * jobs.tasks - Retrieves the jobs along with their phases and the tasks within each phase   * logs - Retrieves the certificate log   * invalid_reasons - Retrieves invalid reasons for this certificate if the certificate is invalid   * custom_fields - Retrieves custom fields set for this certificate   * jurisdictions - Retrieves the list of jurisdictions associated with the certificate
+      # @param filter [String] A filter statement to identify specific records to retrieve. For more information on filtering, see [Filtering in REST](http://developer.avalara.com/avatax/filtering-in-rest/).<br />*Not filterable:* exemptionNumber, jurisdictions, ecmsId, ecmsStatus, pdf, pages
       # @param top [Integer] If nonzero, return no more than this number of results. Used with `$skip` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 1,000 records.
       # @param skip [Integer] If nonzero, skip this number of results before returning data. Used with `$top` to provide pagination for large datasets.
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def query_certificates(companyId, options={})        path = "/api/v2/companies/#{companyId}/certificates"
-        get(path, options, "22.6.1")      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Request setup of exemption certificates for this company.
       #
@@ -313,13 +470,13 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] 
       # @return [Object]
       def request_certificate_setup(companyId)        path = "/api/v2/companies/#{companyId}/certificates/setup"
-        post(path, {}, "22.6.1")      end
+        post(path, {}, {}, AvaTax::VERSION)      end
 
       # Unlink attributes from a certificate
       #
@@ -340,15 +497,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param model [CertificateAttributeModel[]] The list of attributes to unlink from this certificate.
       # @return [FetchResult]
       def unlink_attributes_from_certificate(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/attributes/unlink"
-        post(path, model, {}, "22.6.1")      end
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # Unlink customers from a certificate
       #
@@ -371,15 +528,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param model [Object] The list of customers to unlink from this certificate
       # @return [FetchResult]
       def unlink_customers_from_certificate(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/customers/unlink"
-        post(path, model, {}, "22.6.1")      end
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # Update a single certificate
       #
@@ -397,15 +554,36 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param model [Object] The new certificate object that will replace the existing one
       # @return [Object]
       def update_certificate(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}"
-        put(path, model, {}, "22.6.1")      end
+        put(path, model, {}, AvaTax::VERSION)      end
+
+      # Update Certificate Custom Fields
+      #
+      # Updates the values of custom fields for a certificate
+      #
+      # Before you can use any exemption certificates endpoints, you must set up your company for exemption certificate data storage.
+      # Companies that do not have this storage system set up will see `CertCaptureNotConfiguredError` when they call exemption
+      # certificate related APIs. To check if this is set up for a company, call `GetCertificateSetup`. To request setup of exemption
+      # certificate storage for this company, call `RequestCertificateSetup`.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyId [Integer] The unique ID number of the company that recorded this certificate
+      # @param id [Integer] The unique ID number of this certificate
+      # @param model [Object] The request model containing updated custom field values
+      # @return []
+      def update_certificate_custom_fields(companyId, id, model)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/custom-fields"
+        put(path, model, {}, AvaTax::VERSION)      end
 
       # Upload an image or PDF attachment for this certificate
       #
@@ -426,15 +604,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
-      # * This API depends on the following active services:*Required* (all): AvaTaxPro.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, AvaTaxOnlyAccountAdmin, AvaTaxOnlyAccountUser, AvaTaxOnlyCompanyAdmin, AvaTaxOnlyCompanyUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, ECMEssentials, ECMPro, ECMPremium, VEMPro, VEMPremium, ECMProComms, ECMPremiumComms.
       # Swagger Name: AvaTaxClient	  
       # @param companyId [Integer] The unique ID number of the company that recorded this certificate
       # @param id [Integer] The unique ID number of this certificate
       # @param file [Object] The exemption certificate file you wanted to upload. Accepted formats are: PDF, JPEG, TIFF, PNG.
       # @return [String]
       def upload_certificate_image(companyId, id)        path = "/api/v2/companies/#{companyId}/certificates/#{id}/attachment"
-        post(path, {}, "22.6.1")      end
+        post(path, {}, {}, AvaTax::VERSION)      end
     end
   end
 end
